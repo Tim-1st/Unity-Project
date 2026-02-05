@@ -38,7 +38,7 @@ public class EnemyPatrol : MonoBehaviour
     private bool HasNotTouchedGround()
     {
         Vector2 center = new Vector2(
-            bc.bounds.center.x + bc.bounds.extents.x,
+            bc.bounds.center.x + bc.bounds.extents.x * Mathf.Sign(transform.localScale.x),
             bc.bounds.min.y
         );
  
