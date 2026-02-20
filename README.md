@@ -18,6 +18,11 @@ Un prototype de jeu vidéo 2D développé en **C#** dans le cadre de mon cursus 
 
 ---
 
+## Principe
+Ce jeu est une plateforme de parcours dans laquelle on retrouve des ennemis (cubes rouge) que l’on peut éliminer en sautant dessus.
+
+---
+
 ## Fonctionnalités Clés
 * **Système de Physique** : Gestion des sauts, des mouvements du joueur et des déplacements des ennemis.
 * **Effets Visuels** : Intégration d'une palette graphique personnalisée.
