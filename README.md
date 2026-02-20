@@ -25,6 +25,7 @@ Dans ce jeu de plateforme, vous incarnez un petit personnage qui doit éliminer 
 
 ## Fonctionnalités Clés
 * **Système de Physique** : Gestion des sauts, des mouvements du joueur et des déplacements des ennemis.
+* **Implémentation de fonctionnalités** : Système de vie et temps d'invulnérabilité après dégâts.
 * **Effets Visuels** : Intégration d'une palette graphique personnalisée.
 
 ---
