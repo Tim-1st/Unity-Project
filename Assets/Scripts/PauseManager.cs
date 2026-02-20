@@ -4,6 +4,14 @@ using UnityEngine;
 public class PauseManager : MonoBehaviour
 {
     private bool isGamePaused = false;
+
+    [SerializeField] 
+    private GameObject pauseMenuUI;
+
+    void Awake ()
+    {
+        pauseMenuUI.SetActive(false);
+    }
     
     void Update()
     {
@@ -24,10 +32,17 @@ public class PauseManager : MonoBehaviour
     private void Pause()
     {
         Time.timeScale = 0f;
+        pauseMenuUI.SetActive(true);
     }
 
-    private void Resume()
+    public void Resume()
     {
         Time.timeScale = 1f;
+        pauseMenuUI.SetActive(false);
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 }
