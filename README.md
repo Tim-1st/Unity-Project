@@ -19,7 +19,7 @@ Un prototype de jeu vidéo 2D développé en **C#** dans le cadre de mon cursus 
 ---
 
 ## Principe
-Ce jeu est une plateforme de parcours dans laquelle on retrouve des ennemis mobiles (cubes rouges) que l’on peut éliminer en sautant dessus.
+Dans ce jeu de plateforme, vous incarnez un petit personnage qui doit éliminer des ennemis mobiles (cubes rouges) en leur sautant dessus tout au long de son parcours.
 
 ---
 
