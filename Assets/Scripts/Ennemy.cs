@@ -25,6 +25,11 @@ public class ennemy : MonoBehaviour
 
             Die();
         }
+        else
+        {
+            PlayerHealth playerHealth = collision.gameObject.GetComponent<PlayerHealth>();
+            playerHealth.TakeDamage(5);
+        }
 
         
 }
