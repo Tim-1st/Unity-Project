@@ -6,6 +6,9 @@ public class PlayerMovement : MonoBehaviour
     // UNITY CALLBACKS
     // =========================================================
 
+    [SerializeField]
+    private Animator animator;
+    
     private void Update()
     {
         moveDirectionX = Input.GetAxisRaw("Horizontal");
@@ -17,6 +20,8 @@ public class PlayerMovement : MonoBehaviour
             jumpReleased = true;
 
         Flip();
+
+        Animations();
     }
 
     private void FixedUpdate()
@@ -118,6 +123,18 @@ public class PlayerMovement : MonoBehaviour
             groundCheckRadius,
             listGroundLayers
         );
+    }
+
+
+    // =========================================================
+    // ANIMATIONS
+    // =========================================================
+
+    private void Animations()
+    {
+        animator.SetFloat("VelocityX", Mathf.Abs(rb.linearVelocityX));
+        animator.SetFloat("VelocityY", Mathf.Abs(rb.linearVelocityY));
+        animator.Setbool("IsGrounded", IsGrounded);
     }
 
 
