@@ -1,34 +1,37 @@
 using UnityEngine;
 using TMPro;
 using System.Collections;
-using UnityEngine.Rendering;
-
+using Unity.VisualScripting;
+using NUnit.Framework;
+using System;
 
 public class PlayerHealth : MonoBehaviour
 {
-    [SerializeField] 
-    private SpriteRenderer sr;
+    [SerializeField]
+    private IntVariable currentLifePoints;
 
     [SerializeField]
-    private HealthBar healthBar;
-
-    [SerializeField] 
-    private int currentLifePoints;
-
-    [SerializeField] 
-    private int maxLifePoints;
-
-    private bool isInvulnerable = false;
+    private IntVariable maxLifePoints;
 
     [SerializeField]
     private TextMeshProUGUI currentLifePointsText;
 
+    [SerializeField]
+    private VoidEventChannel onTakeDamage;
+
+    [SerializeField]
+    private VoidEventChannel onPlayerDeath;
+
+    [SerializeField]
+    private SpriteRenderer sr;
+
+    private bool isInvulnerable = false;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
-        currentLifePoints = maxLifePoints;
-        currentLifePointsText.SetText(currentLifePoints.ToString());
-        healthBar.SetHealth((float)currentLifePoints / maxLifePoints);
+        currentLifePoints.CurrentValue = maxLifePoints.CurrentValue;
+        currentLifePointsText.SetText(maxLifePoints.CurrentValue.ToString());
     }
 
     public void TakeDamage(int damage = 1)
@@ -38,58 +41,58 @@ public class PlayerHealth : MonoBehaviour
             return;
         }
         isInvulnerable = true;
-        StartCoroutine(InvulnerableDuration());
-        currentLifePoints = Mathf.Clamp(currentLifePoints - damage, 0, maxLifePoints);
-        currentLifePointsText.SetText(currentLifePoints.ToString());
-
-        healthBar.SetHealth((float)currentLifePoints / maxLifePoints);
-
-        if (currentLifePoints == 0)
+        StartCoroutine(InvulnerableFlash());
+        currentLifePoints.CurrentValue = Mathf.Clamp(
+            currentLifePoints.CurrentValue - damage,
+            0,
+            maxLifePoints.CurrentValue
+        );
+        currentLifePointsText.text = currentLifePoints.CurrentValue.ToString();
+        onTakeDamage.Raise();
+        if (currentLifePoints.CurrentValue == 0)
         {
-           Debug.Log("Game Over");
+            onPlayerDeath.Raise();
         }
     }
-
-    IEnumerator InvulnerableDuration()
+    IEnumerator InvulnerableFlash()
     {
-       
         isInvulnerable = true;
-
-        float duration = 1.25f;
-        float timeElasped = 0f;
-
-        float flashDuration = 0.2f;
-        float flashTimeElasped = 0f;
-
+ 
+        // Durée de l'invulnerabilité
+        float invulnerableDuration = 1.25f;
+        // Temps écoulé durant la période d'invulnerabilité
+        float timeElapsed = 0;
+ 
+        // Durée durant laquelle le sprite est visible ou invisible
+        float flashInvulnerabilityDuration = 0.2f;
+        // Temps écoulé durant la période de visibilité ou invisibilité
+        float flashTimeElapsed = 0;
         bool isVisible = true;
-
-
-        while (timeElasped < duration)
+ 
+        while (timeElapsed < invulnerableDuration)
         {
-            timeElasped += Time.deltaTime;
-            flashTimeElasped += Time.deltaTime;
-
-            if (flashTimeElasped >= flashDuration)
+            timeElapsed += Time.deltaTime;
+            flashTimeElapsed += Time.deltaTime;
+ 
+            if (flashTimeElapsed >= flashInvulnerabilityDuration)
             {
                 if (isVisible)
                 {
                     sr.color = Color.clear;
-                } 
-                else
+                } else
                 {
                     sr.color = Color.white;
                 }
-
-                flashTimeElasped = 0f;
+ 
+                flashTimeElapsed = 0;
                 isVisible = !isVisible;
             }
-
-           yield return null;
+ 
+            // Attendre le rafraichissement de l'écran
+            yield return null;
         }
-
+ 
         sr.color = Color.white;
-
         isInvulnerable = false;
     }
-
 }
